@@ -1,0 +1,783 @@
+{
+  "metadata": {
+    "servidor": "\\\\192.168.2.37\\ingenieria\\PRODUCCION\\AGP PLANOS TECNICOS",
+    "total": 20,
+    "exitosos": 16,
+    "errores": 0,
+    "fecha": "2026-03-19T07:37:33.224193"
+  },
+  "planos": [
+    {
+      "archivo": "1514 55 00.dwg",
+      "ruta": "1514 55 00.dwg",
+      "carpeta": "",
+      "tablas": [
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "92",
+            "BN+D": "172+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "97",
+            "BN+D": "167+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "25",
+            "BN+D": "55+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "24",
+            "BN+D": "268+4"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "24",
+            "BN+D": "70+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA-2",
+          "atributos": {
+            "BN+D": "BN INT"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "22",
+            "BN+D": "55+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "97",
+            "BN+D": "185+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "92",
+            "BN+D": "184+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "24",
+            "BN+D": "264+5"
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "FORMATO PLANOS DE APROBACION.dwg",
+      "ruta": "FORMATO PLANOS DE APROBACION.dwg",
+      "carpeta": "",
+      "tablas": [
+        {
+          "bloque": "OFFSET+BN",
+          "atributos": {
+            "OFFSET": "32",
+            "BB+D": "85+5"
+          }
+        },
+        {
+          "bloque": "BN INT",
+          "atributos": {
+            "BB+D": "BB INT",
+            "BN+D": "85"
+          }
+        },
+        {
+          "bloque": "OFFSET+BN",
+          "atributos": {
+            "OFFSET": "32",
+            "BB+D": "75+5"
+          }
+        },
+        {
+          "bloque": "BN INT",
+          "atributos": {
+            "BB+D": "BB INT",
+            "BN+D": "75"
+          }
+        },
+        {
+          "bloque": "OFFSET+BN",
+          "atributos": {
+            "OFFSET": "34",
+            "BB+D": "64+5"
+          }
+        },
+        {
+          "bloque": "BN INT",
+          "atributos": {
+            "BB+D": "BB INT",
+            "BN+D": "64"
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "TABLA DE VALORES.dwg",
+      "ruta": "TABLA DE VALORES.dwg",
+      "carpeta": "",
+      "tablas": [],
+      "error": null
+    },
+    {
+      "archivo": "252 00 00.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\252 00 00.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER",
+      "tablas": [
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "15",
+            "BN+D": "60+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "16",
+            "BN+D": "38+15"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "16",
+            "BN+D": "45+15"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "43",
+            "BN+D": "90+5"
+          }
+        },
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "PARABRISAS",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "SER_AGPPT_145-TOYOTA COROLLA 03_V-00 GAMATER",
+            "DIBUJO": "PATRICIA S.",
+            "CODIGO-PLANO": "252 00 00",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "252 00 01.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\252 00 01.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER",
+      "tablas": [
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "LATERAL DELANTERO IZQ/DER",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "C:AGPPT_30-M. TOYOTA CORROLLA_V-00_252 00 01/02",
+            "DIBUJO": "ANGEL M.",
+            "CODIGO-PLANO": "252 00 01/02",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        },
+        {
+          "bloque": "IF-TECNICA-2PLO",
+          "atributos": {
+            "BN+D": "BN+D"
+          }
+        },
+        {
+          "bloque": "IF-TECNICAPLO",
+          "atributos": {
+            "OFFSET": "17",
+            "BN+D": "31+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICAPLO",
+          "atributos": {
+            "OFFSET": "11",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "14",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICAPLO",
+          "atributos": {
+            "OFFSET": "9",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA-2PLO",
+          "atributos": {
+            "BN+D": "ACERO"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "26"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "23"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "29"
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "252 00 02.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\252 00 02.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER",
+      "tablas": [
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "17",
+            "BN+D": "31+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "14",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA-2",
+          "atributos": {
+            "BN+D": "BN+D"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "11",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "9",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "23"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "29"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "26"
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "252 00 03.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\252 00 03.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER",
+      "tablas": [
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "14",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA-2",
+          "atributos": {
+            "BN+D": "BN+D"
+          }
+        },
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "LATERAL TRASERO IZQ/DER",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "C:AGPPT_30-M. TOYOTA CORROLLA_V-00_252 00 03/04",
+            "DIBUJO": "ANGEL M.",
+            "CODIGO-PLANO": "252 00 03/04",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        },
+        {
+          "bloque": "IF-TECNICAPLO",
+          "atributos": {
+            "OFFSET": "11",
+            "BN+D": "23+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "9",
+            "BN+D": "23+5"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "24"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "19"
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "252 00 04.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\252 00 04.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER",
+      "tablas": [
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "14",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA-2",
+          "atributos": {
+            "BN+D": "BN+D"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "11",
+            "BN+D": "23+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "9",
+            "BN+D": "23+5"
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "252 00 05.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\252 00 05.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER",
+      "tablas": [
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "6",
+            "BN+D": "23+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "14",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA-2",
+          "atributos": {
+            "BN+D": "BN+D"
+          }
+        },
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "VENTILETE TRASERO IZQ/DER",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "C:AGPPT_30-M. TOYOTA CORROLLA_V-00_252 00 05/06",
+            "DIBUJO": "ANGEL M.",
+            "CODIGO-PLANO": "252 00 05/06",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "24"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "16"
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "252 00 06.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\252 00 06.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER",
+      "tablas": [
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "16"
+          }
+        },
+        {
+          "bloque": "ACERO CAJ",
+          "atributos": {
+            "NUM": "24"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA-2",
+          "atributos": {
+            "BN+D": "BN+D"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "14",
+            "BN+D": "28+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "6",
+            "BN+D": "23+5"
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "252 00 09.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\252 00 09.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER",
+      "tablas": [
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "33",
+            "BN+D": "64+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "21",
+            "BN+D": "58+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "21",
+            "BN+D": "66+5"
+          }
+        },
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "POSTERIOR",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "SER_AGPPT_145-TOYOTA COROLLA 03_V-00 GAMATER",
+            "DIBUJO": "PATRICIA S.",
+            "CODIGO-PLANO": "252 00 09",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "252 00 01-02.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ACERO\\252 00 01-02.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ACERO",
+      "tablas": [],
+      "error": null
+    },
+    {
+      "archivo": "252 00 03-04.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ACERO\\252 00 03-04.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ACERO",
+      "tablas": [],
+      "error": null
+    },
+    {
+      "archivo": "252 00 05-06.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ACERO\\252 00 05-06.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ACERO",
+      "tablas": [],
+      "error": null
+    },
+    {
+      "archivo": "P 252 00 00.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES\\P 252 00 00.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES",
+      "tablas": [
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "PARABRISAS",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "SER_AGPPT_145-TOYOTA COROLLA 03_V-00 GAMATER_ARTES",
+            "DIBUJO": "PATRICIA S.",
+            "CODIGO-PLANO": "P 252 00 00",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "P 252 00 01-02.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES\\P 252 00 01-02.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES",
+      "tablas": [
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D UTILITY",
+            "PIEZA-1": "LATERAL DELANTERO IZQ7DER",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "SER_AGPPT_145-TOYOTA COROLLA 03_V-00 GAMATER",
+            "DIBUJO": "ANGEL M.",
+            "CODIGO-PLANO": "P 252 00 01/02",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "P 252 00 03-04.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES\\P 252 00 03-04.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES",
+      "tablas": [
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "LATERAL TRASERO IZQUIERDO",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "SER_AGPPT_145-TOYOTA COROLLA 03_V-00 GAMATER",
+            "DIBUJO": "ANGEL M.",
+            "CODIGO-PLANO": "P 252 00 03",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        },
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "LATERAL TRASERO DERECHO",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "SER_AGPPT_145-TOYOTA COROLLA 03_V-00 GAMATER",
+            "DIBUJO": "ANGEL M.",
+            "CODIGO-PLANO": "P 252 00 04",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "P 252 00 05-06.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES\\P 252 00 05-06.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES",
+      "tablas": [
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D UTILITY",
+            "PIEZA-1": "VENTILETE  IZQ./DER.",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "SER_AGPPT_145-TOYOTA COROLLA 03_V-00 GAMATER",
+            "DIBUJO": "ANGEL M.",
+            "CODIGO-PLANO": "P 252 00 05/06",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "P 252 00 09.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES\\P 252 00 09.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES",
+      "tablas": [
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "POSTERIOR",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "SER_AGPPT_145-TOYOTA COROLLA 03_V-00 GAMATER",
+            "DIBUJO": "PATRICIA S.",
+            "CODIGO-PLANO": "P 252 00 09",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        }
+      ],
+      "error": null
+    },
+    {
+      "archivo": "R 252 00 09.dwg",
+      "ruta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES\\R 252 00 09.dwg",
+      "carpeta": "00-Homologación_VZLA\\252_Homolog_VZLA\\V-00-GAMATER\\ARTES",
+      "tablas": [
+        {
+          "bloque": "ROTULO",
+          "atributos": {
+            "VEHICULO-2": "VERSION 00-GAMATER",
+            "VEHICULO-1": "TOYOTA COROLLA 4D SEDAN",
+            "PIEZA-1": "RED POSTERIOR",
+            "FECHA-EMISION": "12-AGO-2003",
+            "ESCALA": "1:1",
+            "ARCHIVO-CAD": "SER_AGPPT_145-TOYOTA COROLLA 03_V-00 GAMATER_ARTES",
+            "DIBUJO": "PATRICIA S.",
+            "CODIGO-PLANO": "R 252 00 09",
+            "CODIGO-NAGS": "252",
+            "VISTA": "INTERNA",
+            "MODELO": "2003",
+            "REVISO": "GERMAN P.",
+            "TUBO-NO": "No."
+          }
+        }
+      ],
+      "error": null
+    }
+  ]
+}
