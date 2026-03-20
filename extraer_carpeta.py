@@ -17,9 +17,9 @@ import io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # ================== CONFIGURACION ==================
-SERVIDOR = r"\\192.168.2.37\ingenieria\PRODUCCION\AGP PLANOS TECNICOS"
+SERVIDOR = r"\\192.168.2.37\ingenieria\PRODUCCION\MULTICAPA LOGAN MACRO\AUTOMATA"
 ODA_EXE = r"C:\Program Files\ODA\ODAFileConverter 27.1.0\ODAFileConverter.exe"
-
+carpeta_nombre = "AUTOMATA"
 # Importar ezdxf
 try:
     import ezdxf
