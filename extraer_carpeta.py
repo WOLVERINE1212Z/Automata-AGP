@@ -17,7 +17,7 @@ import io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # ================== CONFIGURACION ==================
-SERVIDOR = r"\\192.168.2.37\ingenieria\PRODUCCION\MULTICAPA LOGAN MACRO\AUTOMATA"
+SERVIDOR = r"\\192.168.2.37\ingenieria\PRODUCCION\AGP PLANOS TECNICOS"
 ODA_EXE = r"C:\Program Files\ODA\ODAFileConverter 27.1.0\ODAFileConverter.exe"
 carpeta_nombre = "AUTOMATA"
 # Importar ezdxf
@@ -44,13 +44,23 @@ def obtener_dwg_carpeta(carpeta_nombre):
     print(f"[1] Buscando archivos DWG de pieza 090 en: {carpeta_nombre}")
     archivos = []
     
+    contador_carpetas = 0
+
     for root, dirs, files in os.walk(ruta_carpeta):
-        # Ignorar carpeta DXF
+        contador_carpetas += 1
+
+        if contador_carpetas % 100 == 0:
+            print(f"    Revisadas {contador_carpetas} carpetas...", flush=True)
+
+        # Ignorar carpetas que no interesa recorrer
+        dirs[:] = [d for d in dirs if d not in ['_DXF_CONVERTIDOS', 'DXF', 'output', '__pycache__']]
+
         if '_DXF_CONVERTIDOS' in root:
             continue
             
         for file in files:
             if file.lower().endswith('.dwg') and es_pieza_090(file):
+                print(f"    [090] Encontrado: {file}", flush=True)
                 ruta_completa = os.path.join(root, file)
                 ruta_rel = ruta_completa.replace(ruta_carpeta, '').strip('\\')
                 archivos.append({
@@ -131,6 +141,108 @@ def convertir_dwg(dwg_path, carpeta_salida):
     except:
         return None
 
+CAMPOS_TECNICOS = {
+    "OFFSET": "OFFSET",
+    "BN": "BN",
+    "BN+D": "BN+D",
+    "BN INT": "BN INT",
+    "BANDA NEGRA": "BN",
+    "ACERO": "ACERO",
+    "STEEL": "ACERO",
+    "OFFSET PC": "OFFSET PC",
+}
+
+def normalizar_texto(texto):
+    if texto is None:
+        return ""
+    return " ".join(str(texto).replace("\\P", " ").split()).strip()
+
+def canon_campo(texto):
+    t = normalizar_texto(texto).upper()
+    return CAMPOS_TECNICOS.get(t)
+
+def agrupar_por_y(items, tolerancia=6.0):
+    if not items:
+        return []
+
+    ordenados = sorted(items, key=lambda x: (-x["y"], x["x"]))
+    grupos = []
+
+    for item in ordenados:
+        agregado = False
+        for grupo in grupos:
+            if abs(item["y"] - grupo[0]["y"]) <= tolerancia:
+                grupo.append(item)
+                agregado = True
+                break
+        if not agregado:
+            grupos.append([item])
+
+    for grupo in grupos:
+        grupo.sort(key=lambda x: x["x"])
+
+    return grupos
+
+def extraer_tablas_insert(block_ref):
+    nombre_bloque = block_ref.dxf.name
+    items = []
+
+    for attr in block_ref.attribs:
+        tag = normalizar_texto(getattr(attr.dxf, "tag", ""))
+        texto = normalizar_texto(getattr(attr.dxf, "text", ""))
+
+        p = getattr(attr.dxf, "insert", None)
+        x = float(p.x) if p else 0.0
+        y = float(p.y) if p else 0.0
+
+        if tag or texto:
+            items.append({
+                "tag": tag,
+                "texto": texto,
+                "x": x,
+                "y": y,
+            })
+
+    filas = agrupar_por_y(items, tolerancia=6.0)
+    tablas = []
+
+    for fila in filas:
+        atributos = {}
+        i = 0
+
+        while i < len(fila):
+            actual = fila[i]
+            campo = canon_campo(actual["texto"]) or canon_campo(actual["tag"])
+            valor = None
+
+            # Caso 1: etiqueta visual + valor a la derecha
+            if canon_campo(actual["texto"]) and i + 1 < len(fila):
+                siguiente = fila[i + 1]
+                if not canon_campo(siguiente["texto"]):
+                    valor = siguiente["texto"]
+                    i += 2
+                else:
+                    i += 1
+
+            # Caso 2: atributo directo, ej. tag=OFFSET texto=50
+            elif canon_campo(actual["tag"]) and actual["texto"] and not canon_campo(actual["texto"]):
+                valor = actual["texto"]
+                i += 1
+
+            else:
+                i += 1
+
+            if campo and valor and valor != campo:
+                atributos[campo] = valor
+
+        if atributos:
+            tablas.append({
+                "bloque": nombre_bloque,
+                "atributos": atributos
+            })
+
+    return tablas
+
 def extraer_datos(ruta_dxf, info_archivo):
     """Extrae datos técnicos del DXF"""
     datos = {
@@ -142,45 +254,34 @@ def extraer_datos(ruta_dxf, info_archivo):
         'resumen': [],
         'error': None
     }
-    
+
     try:
         doc = ezdxf.readfile(ruta_dxf)
         msp = doc.modelspace()
-        
+
         bloques = list(msp.query('INSERT'))
-        
+
         for block_ref in bloques:
             if hasattr(block_ref, 'attribs') and block_ref.attribs:
-                nombre_bloque = block_ref.dxf.name
-                atributos = {}
-                
-                for attr in block_ref.attribs:
-                    tag = getattr(attr.dxf, 'tag', '').strip() if hasattr(attr.dxf, 'tag') else ''
-                    texto = getattr(attr.dxf, 'text', '').strip() if hasattr(attr.dxf, 'text') else ''
-                    
-                    if tag and texto and tag not in atributos:
-                        atributos[tag] = texto
-                
-                if atributos:
+                tablas_bloque = extraer_tablas_insert(block_ref)
+
+                for tabla in tablas_bloque:
                     existe = False
                     for t in datos['tablas']:
-                        if t.get('atributos') == atributos:
+                        if t.get('bloque') == tabla.get('bloque') and t.get('atributos') == tabla.get('atributos'):
                             existe = True
                             break
-                    
+
                     if not existe:
-                        tabla = {
-                            'bloque': nombre_bloque,
-                            'atributos': atributos
-                        }
                         datos['tablas'].append(tabla)
 
-                        # Crear resumen para el visor
-                        for campo, valor in atributos.items():
-                            if campo in ['OFFSET', 'BN+D', 'BN INT', 'ACERO', 'OFFSET PC']:
+                        for campo, valor in tabla.get('atributos', {}).items():
+                            if campo in ['OFFSET', 'BN', 'BN+D', 'BN INT', 'ACERO', 'OFFSET PC']:
                                 datos['resumen'].append(f"{campo}: {valor}")
+
     except Exception as e:
         datos['error'] = str(e)
+
     datos['resumen'] = list(dict.fromkeys(datos['resumen']))
     return datos
 

@@ -414,7 +414,7 @@
     
     async function cargarDatos() {
       try {
-        const response = await fetch('output/DWG_datos.json');
+        const response = await fetch('output/TOYOTA_datos.json');
         datosGlobales = await response.json();
         
         archivosMostrados = [...datosGlobales.planos];
@@ -584,7 +584,7 @@
     }
     
     function descargarExcel() {
-      window.open('output/DWG_planos.xlsx', '_blank');
+      window.open('output/TOYOTA_planos.xlsx', '_blank');
     }
     
     window.onload = cargarDatos;
