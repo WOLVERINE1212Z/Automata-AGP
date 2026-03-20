@@ -3,7 +3,7 @@
 EXTRACTOR POR CARPETA - Procesa una carpeta específica
 Genera Excel con hojas por subcarpeta
 """
-
+import re
 import os
 import sys
 import json
@@ -27,6 +27,42 @@ except ImportError:
     print("[ERROR] Instalar ezdxf: pip install ezdxf")
     sys.exit(1)
 
+def es_pieza_090(nombre_archivo):
+    """Devuelve True si el nombre del archivo corresponde a la pieza 090"""
+    nombre_sin_extension = os.path.splitext(nombre_archivo)[0]
+    return bool(re.search(r'(?<!\d)090(?!\d)', nombre_sin_extension))
+
+
+def obtener_dwg_carpeta(carpeta_nombre):
+    """Busca archivos DWG de pieza 090 en una carpeta específica del servidor"""
+    ruta_carpeta = os.path.join(SERVIDOR, carpeta_nombre)
+    
+    if not os.path.exists(ruta_carpeta):
+        print(f"[ERROR] La carpeta no existe: {ruta_carpeta}")
+        return []
+    
+    print(f"[1] Buscando archivos DWG de pieza 090 en: {carpeta_nombre}")
+    archivos = []
+    
+    for root, dirs, files in os.walk(ruta_carpeta):
+        # Ignorar carpeta DXF
+        if '_DXF_CONVERTIDOS' in root:
+            continue
+            
+        for file in files:
+            if file.lower().endswith('.dwg') and es_pieza_090(file):
+                ruta_completa = os.path.join(root, file)
+                ruta_rel = ruta_completa.replace(ruta_carpeta, '').strip('\\')
+                archivos.append({
+                    'ruta_completa': ruta_completa,
+                    'ruta_relativa': ruta_rel,
+                    'carpeta': os.path.dirname(ruta_rel),
+                    'nombre': file
+                })
+    
+    print(f"    Encontrados: {len(archivos)} archivos DWG de pieza 090")
+    return archivos
+
 def obtener_dwg_carpeta(carpeta_nombre):
     """Busca archivos DWG en una carpeta específica del servidor"""
     ruta_carpeta = os.path.join(SERVIDOR, carpeta_nombre)
@@ -44,9 +80,8 @@ def obtener_dwg_carpeta(carpeta_nombre):
             continue
             
         for file in files:
-            if file.lower().endswith('.dwg'):
+            if file.lower().endswith('.dwg') and es_pieza_090(file):
                 ruta_completa = os.path.join(root, file)
-                # Ruta relativa desde la carpeta base
                 ruta_rel = ruta_completa.replace(ruta_carpeta, '').strip('\\')
                 archivos.append({
                     'ruta_completa': ruta_completa,
@@ -102,7 +137,9 @@ def extraer_datos(ruta_dxf, info_archivo):
         'archivo': info_archivo['nombre'],
         'ruta': info_archivo['ruta_relativa'],
         'carpeta': info_archivo['carpeta'],
+        'pieza': '090',
         'tablas': [],
+        'resumen': [],
         'error': None
     }
     
@@ -132,14 +169,39 @@ def extraer_datos(ruta_dxf, info_archivo):
                             break
                     
                     if not existe:
-                        datos['tablas'].append({
+                        tabla = {
                             'bloque': nombre_bloque,
                             'atributos': atributos
-                        })
+                        }
+                        datos['tablas'].append(tabla)
+
+                        # Crear resumen para el visor
+                        for campo, valor in atributos.items():
+                            if campo in ['OFFSET', 'BN+D', 'BN INT', 'ACERO', 'OFFSET PC']:
+                                datos['resumen'].append(f"{campo}: {valor}")
     except Exception as e:
         datos['error'] = str(e)
-    
+    datos['resumen'] = list(dict.fromkeys(datos['resumen']))
     return datos
+
+def agrupar_resultados_por_carpeta(resultados):
+    """Agrupa los resultados por carpeta para usarlos en el visor HTML"""
+    carpetas = {}
+
+    for plano in resultados:
+        carpeta = plano.get('carpeta', '')
+        if carpeta == '':
+            carpeta = 'Raiz'
+
+        if carpeta not in carpetas:
+            carpetas[carpeta] = {
+                'nombre': carpeta,
+                'archivos': []
+            }
+
+        carpetas[carpeta]['archivos'].append(plano)
+
+    return list(carpetas.values())
 
 def generar_excel_por_carpeta(resultados, carpeta_nombre):
     """Genera Excel con hojas por subcarpeta"""
@@ -279,15 +341,19 @@ def main(carpeta_nombre):
     
     # Guardar JSON también
     json_file = f"output/{carpeta_nombre}_datos.json"
+    carpetas_agrupadas = agrupar_resultados_por_carpeta(resultados)
+
     datos_json = {
         'metadata': {
             'carpeta': carpeta_nombre,
             'servidor': SERVIDOR,
+            'pieza_objetivo': '090',
             'total': len(resultados),
             'exitosos': exitosos,
             'errores': errores,
             'fecha': datetime.now().isoformat()
         },
+        'carpetas': carpetas_agrupadas,
         'planos': resultados
     }
     

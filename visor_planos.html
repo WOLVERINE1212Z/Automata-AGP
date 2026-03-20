@@ -150,6 +150,29 @@
       display: flex;
       justify-content: space-between;
     }
+    .carpeta-grupo {
+      border-bottom: 1px solid var(--agp-border);
+    }
+
+    .carpeta-titulo {
+      padding: 10px 20px;
+      background: #f3f7f9;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--agp-gris);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .carpeta-contador {
+      font-weight: 500;
+      color: var(--agp-text-light);
+      margin-left: 6px;
+    }
+
+    .archivos-en-carpeta {
+      background: white;
+    }
     
     .archivo-item {
       padding: 12px 20px;
@@ -340,7 +363,7 @@
   
   <!-- Header -->
   <header class="header">
-    <h1>📋 00-Homologación_VZLA - Planos Técnicos</h1>
+    <h1>📋 Pieza 090 - Visor de Planos Técnicos</h1>
     <div class="header-actions">
       <button class="btn" onclick="descargarExcel()">📥 Descargar Excel</button>
     </div>
@@ -349,13 +372,13 @@
   <!-- Buscador y Filtros -->
   <div class="search-section">
     <div class="search-row">
-      <input type="text" class="search-input" id="buscador" placeholder="Buscar por archivo, OFFSET, BN+D, vehículo..." oninput="filtrarDatos()">
+      <input type="text" class="search-input" id="buscador" placeholder="Buscar por archivo 090, carpeta, OFFSET, BN+D..." oninput="filtrarDatos()">
       <span class="stats" id="stats">Cargando...</span>
     </div>
     <div class="filtros">
       <button class="filtro-btn active" onclick="setFiltro('todos', this)">Todos</button>
       <button class="filtro-btn" onclick="setFiltro('con_datos', this)">✓ Con datos</button>
-      <button class="filtro-btn" onclick="setFiltro('252', this)">pene</button>
+      <button class="filtro-btn" onclick="setFiltro('252', this)">252</button>
       <button class="filtro-btn" onclick="setFiltro('275', this)">275</button>
       <button class="filtro-btn" onclick="setFiltro('401', this)">401</button>
       <button class="filtro-btn" onclick="setFiltro('477', this)">477</button>
@@ -391,14 +414,14 @@
     
     async function cargarDatos() {
       try {
-        const response = await fetch('output/00-Homologación_VZLA_datos.json');
+        const response = await fetch('output/DWG_datos.json');
         datosGlobales = await response.json();
         
         archivosMostrados = [...datosGlobales.planos];
         renderizarLista();
-        
+
         document.getElementById('stats').textContent = 
-          `${datosGlobales.metadata.total} archivos | ${datosGlobales.metadata.exitosos} con datos`;
+          `${datosGlobales.metadata.total} archivos 090 | ${datosGlobales.metadata.exitosos} con datos`;
         
         document.getElementById('loading').style.display = 'none';
       } catch (error) {
@@ -408,46 +431,67 @@
     
     function getTags(plano) {
       const tags = [];
-      if (plano.tablas && plano.tablas.length > 0) {
-        // Buscar OFFSET
-        for (const tabla of plano.tablas) {
-          if (tabla.atributos) {
-            if (tabla.atributos.OFFSET) tags.push({ tipo: 'offset', valor: 'OFFSET: ' + tabla.atributos.OFFSET });
-            if (tabla.atributos.BN) tags.push({ tipo: 'bn', valor: 'BN: ' + tabla.atributos.BN });
-            if (tabla.atributos['BN+D']) tags.push({ tipo: 'bn', valor: 'BN+D: ' + tabla.atributos['BN+D'] });
-            if (tabla.atributos['VEHICULO-1']) tags.push({ tipo: 'datos', valor: tabla.atributos['VEHICULO-1'].substring(0, 20) });
-          }
-        }
+
+      if (plano.resumen && plano.resumen.length > 0) {
+        plano.resumen.slice(0, 3).forEach(item => {
+          let tipo = 'datos';
+          if (item.startsWith('OFFSET')) tipo = 'offset';
+          if (item.startsWith('BN')) tipo = 'bn';
+          tags.push({ tipo, valor: item });
+        });
       }
-      return tags.slice(0, 3); // Max 3 tags
+
+      return tags;
     }
     
     function renderizarLista() {
-      const container = document.getElementById('archivos-lista');
-      
-      document.getElementById('contador').textContent = archivosMostrados.length;
-      
-      let html = '';
-      
-      archivosMostrados.forEach((plano, idx) => {
-        const tags = getTags(plano);
-        const tieneDatos = plano.tablas && plano.tablas.length > 0;
-        const carpetaCorta = plano.carpeta ? plano.carpeta.split('\\').pop() : 'Raíz';
-        
-        html += `
-          <div class="archivo-item" onclick="seleccionarArchivo(${idx})" data-idx="${idx}">
-            <div class="archivo-nombre">${plano.archivo}</div>
-            <div class="archivo-carpeta">📁 ${carpetaCorta}</div>
-            <div class="archivo-tags">
-              ${tags.map(t => `<span class="tag ${t.tipo}">${t.valor}</span>`).join('')}
-              ${!tieneDatos ? '<span class="tag">Sin datos</span>' : ''}
-            </div>
+  const container = document.getElementById('archivos-lista');
+  document.getElementById('contador').textContent = archivosMostrados.length;
+
+  const grupos = {};
+
+  archivosMostrados.forEach((plano, idx) => {
+    const carpeta = plano.carpeta && plano.carpeta.trim() !== '' ? plano.carpeta : 'Raíz';
+    if (!grupos[carpeta]) grupos[carpeta] = [];
+    grupos[carpeta].push({ plano, idx });
+  });
+
+  let html = '';
+
+  Object.keys(grupos).sort().forEach(carpeta => {
+    html += `
+      <div class="carpeta-grupo">
+        <div class="carpeta-titulo">
+          📁 ${carpeta}
+          <span class="carpeta-contador">(${grupos[carpeta].length})</span>
+        </div>
+        <div class="archivos-en-carpeta">
+    `;
+
+    grupos[carpeta].forEach(({ plano, idx }) => {
+      const tags = getTags(plano);
+      const tieneDatos = plano.tablas && plano.tablas.length > 0;
+
+      html += `
+        <div class="archivo-item" onclick="seleccionarArchivo(${idx})" data-idx="${idx}">
+          <div class="archivo-nombre">${plano.archivo}</div>
+          <div class="archivo-carpeta">Pieza: ${plano.pieza || '090'}</div>
+          <div class="archivo-tags">
+            ${tags.map(t => `<span class="tag ${t.tipo}">${t.valor}</span>`).join('')}
+            ${!tieneDatos ? '<span class="tag">Sin datos</span>' : ''}
           </div>
-        `;
-      });
-      
-      container.innerHTML = html;
-    }
+        </div>
+      `;
+    });
+
+    html += `
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
     
     function seleccionarArchivo(idx) {
       const plano = archivosMostrados[idx];
@@ -477,7 +521,7 @@
         <div class="detalles-header">
           <h2>${plano.archivo}</h2>
           <p class="ruta">📁 ${plano.carpeta || 'Raíz'}</p>
-          <p class="stats">${plano.tablas.length} tabla(s) técnica(s)</p>
+          <p class="stats">Pieza ${plano.pieza || '090'} | ${plano.tablas.length} tabla(s) técnica(s)</p>
         </div>
         <div class="tablas-grid">
       `;
@@ -518,30 +562,29 @@
     
     function filtrarDatos() {
       const query = document.getElementById('buscador').value.toLowerCase();
-      
+
       archivosMostrados = datosGlobales.planos.filter(plano => {
-        // Filtro de botones
         if (filtroActual === 'con_datos') {
           if (!plano.tablas || plano.tablas.length === 0) return false;
-        } else if (filtroActual !== 'todos') {
-          // Buscar por código (252, 275, etc)
-          if (!plano.carpeta.includes(filtroActual)) return false;
+        } else if (filtroActual === 'sin_datos') {
+          if (plano.tablas && plano.tablas.length > 0) return false;
+        } else if (filtroActual === 'pieza_090') {
+          if (plano.pieza !== '090') return false;
         }
-        
-        // Filtro de búsqueda
+
         if (query) {
           const texto = JSON.stringify(plano).toLowerCase();
           return texto.includes(query);
         }
-        
+
         return true;
       });
-      
+
       renderizarLista();
     }
     
     function descargarExcel() {
-      window.open('output/00-Homologación_VZLA_planos.xlsx', '_blank');
+      window.open('output/DWG_planos.xlsx', '_blank');
     }
     
     window.onload = cargarDatos;

@@ -2,16 +2,111 @@
   "metadata": {
     "carpeta": "DWG",
     "servidor": "\\\\192.168.2.37\\ingenieria\\PRODUCCION\\MULTICAPA LOGAN MACRO\\AUTOMATA",
-    "total": 1,
-    "exitosos": 1,
+    "pieza_objetivo": "090",
+    "total": 2,
+    "exitosos": 2,
     "errores": 0,
-    "fecha": "2026-03-20T09:00:55.915094"
+    "fecha": "2026-03-20T11:16:13.802330"
   },
+  "carpetas": [
+    {
+      "nombre": "Raiz",
+      "archivos": [
+        {
+          "archivo": "M1566 006 090.dwg",
+          "ruta": "M1566 006 090.dwg",
+          "carpeta": "",
+          "pieza": "090",
+          "tablas": [
+            {
+              "bloque": "IF-TECNICA",
+              "atributos": {
+                "OFFSET": "50",
+                "BN+D": "79+5"
+              }
+            },
+            {
+              "bloque": "IF-TECNICA",
+              "atributos": {
+                "OFFSET": "30",
+                "BN+D": "108+5"
+              }
+            },
+            {
+              "bloque": "IF-TECNICA",
+              "atributos": {
+                "OFFSET": "30",
+                "BN+D": "80+5"
+              }
+            }
+          ],
+          "resumen": [
+            "OFFSET: 50",
+            "BN+D: 79+5",
+            "OFFSET: 30",
+            "BN+D: 108+5",
+            "BN+D: 80+5"
+          ],
+          "error": null
+        }
+      ]
+    },
+    {
+      "nombre": "pieza 90",
+      "archivos": [
+        {
+          "archivo": "423 07 090.dwg",
+          "ruta": "pieza 90\\423 07 090.dwg",
+          "carpeta": "pieza 90",
+          "pieza": "090",
+          "tablas": [
+            {
+              "bloque": "IF-TECNICA-2",
+              "atributos": {
+                "BN+D": "BN+D"
+              }
+            },
+            {
+              "bloque": "IF-TECNICA",
+              "atributos": {
+                "OFFSET": "22",
+                "BN+D": "40+5"
+              }
+            },
+            {
+              "bloque": "IF-TECNICA",
+              "atributos": {
+                "OFFSET": "23",
+                "BN+D": "38+5"
+              }
+            },
+            {
+              "bloque": "IF-TECNICA",
+              "atributos": {
+                "OFFSET": "20",
+                "BN+D": "40+5"
+              }
+            }
+          ],
+          "resumen": [
+            "BN+D: BN+D",
+            "OFFSET: 22",
+            "BN+D: 40+5",
+            "OFFSET: 23",
+            "BN+D: 38+5",
+            "OFFSET: 20"
+          ],
+          "error": null
+        }
+      ]
+    }
+  ],
   "planos": [
     {
       "archivo": "M1566 006 090.dwg",
       "ruta": "M1566 006 090.dwg",
       "carpeta": "",
+      "pieza": "090",
       "tablas": [
         {
           "bloque": "IF-TECNICA",
@@ -34,6 +129,57 @@
             "BN+D": "80+5"
           }
         }
+      ],
+      "resumen": [
+        "OFFSET: 50",
+        "BN+D: 79+5",
+        "OFFSET: 30",
+        "BN+D: 108+5",
+        "BN+D: 80+5"
+      ],
+      "error": null
+    },
+    {
+      "archivo": "423 07 090.dwg",
+      "ruta": "pieza 90\\423 07 090.dwg",
+      "carpeta": "pieza 90",
+      "pieza": "090",
+      "tablas": [
+        {
+          "bloque": "IF-TECNICA-2",
+          "atributos": {
+            "BN+D": "BN+D"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "22",
+            "BN+D": "40+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "23",
+            "BN+D": "38+5"
+          }
+        },
+        {
+          "bloque": "IF-TECNICA",
+          "atributos": {
+            "OFFSET": "20",
+            "BN+D": "40+5"
+          }
+        }
+      ],
+      "resumen": [
+        "BN+D: BN+D",
+        "OFFSET: 22",
+        "BN+D: 40+5",
+        "OFFSET: 23",
+        "BN+D: 38+5",
+        "OFFSET: 20"
       ],
       "error": null
     }
