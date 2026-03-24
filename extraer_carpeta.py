@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#Pruenas de ramas git
 """
 EXTRACTOR POR CARPETA - Procesa una carpeta específica
 Genera Excel con hojas por subcarpeta
@@ -28,11 +27,30 @@ except ImportError:
     print("[ERROR] Instalar ezdxf: pip install ezdxf")
     sys.exit(1)
 
-def es_pieza_090(nombre_archivo):
-    """Devuelve True si el nombre del archivo corresponde a la pieza 090"""
-    nombre_sin_extension = os.path.splitext(nombre_archivo)[0]
-    return bool(re.search(r'(?<!\d)090(?!\d)', nombre_sin_extension))
+def extraer_pieza_desde_nombre(nombre_archivo):
+    """
+    Extrae la pieza tomando el último bloque numérico de 3 dígitos
+    desde el final del nombre, ignorando sufijos de letras como A, B, FZ.
+    Ejemplos:
+    - 1656 035 090 A.dwg -> 090
+    - P 1656 035 090 A.dwg -> 090
+    """
+    nombre_sin_extension = os.path.splitext(nombre_archivo)[0].upper().strip()
 
+    # Separar grupos de letras y números
+    bloques = re.findall(r'[A-Z]+|\d+', nombre_sin_extension)
+
+    # Recorrer desde el final y tomar el primer bloque numérico de 3 dígitos
+    for bloque in reversed(bloques):
+        if bloque.isdigit() and len(bloque) == 3:
+            return bloque
+
+    return None
+
+
+def es_pieza_090(nombre_archivo):
+    """Devuelve True solo si la pieza real del archivo es 090"""
+    return extraer_pieza_desde_nombre(nombre_archivo) == '090'
 
 def obtener_dwg_carpeta(carpeta_nombre):
     """Busca archivos DWG de pieza 090 en una carpeta específica del servidor"""
@@ -74,35 +92,6 @@ def obtener_dwg_carpeta(carpeta_nombre):
     print(f"    Encontrados: {len(archivos)} archivos DWG de pieza 090")
     return archivos
 
-def obtener_dwg_carpeta(carpeta_nombre):
-    """Busca archivos DWG en una carpeta específica del servidor"""
-    ruta_carpeta = os.path.join(SERVIDOR, carpeta_nombre)
-    
-    if not os.path.exists(ruta_carpeta):
-        print(f"[ERROR] La carpeta no existe: {ruta_carpeta}")
-        return []
-    
-    print(f"[1] Buscando archivos en: {carpeta_nombre}")
-    archivos = []
-    
-    for root, dirs, files in os.walk(ruta_carpeta):
-        # Ignorar carpeta DXF
-        if '_DXF_CONVERTIDOS' in root:
-            continue
-            
-        for file in files:
-            if file.lower().endswith('.dwg') and es_pieza_090(file):
-                ruta_completa = os.path.join(root, file)
-                ruta_rel = ruta_completa.replace(ruta_carpeta, '').strip('\\')
-                archivos.append({
-                    'ruta_completa': ruta_completa,
-                    'ruta_relativa': ruta_rel,
-                    'carpeta': os.path.dirname(ruta_rel),
-                    'nombre': file
-                })
-    
-    print(f"    Encontrados: {len(archivos)} archivos DWG")
-    return archivos
 
 def convertir_dwg(dwg_path, carpeta_salida):
     """Convierte un DWG a DXF usando ODA"""
@@ -250,7 +239,7 @@ def extraer_datos(ruta_dxf, info_archivo):
         'archivo': info_archivo['nombre'],
         'ruta': info_archivo['ruta_relativa'],
         'carpeta': info_archivo['carpeta'],
-        'pieza': '090',
+        'pieza': extraer_pieza_desde_nombre(info_archivo['nombre']) or '',
         'tablas': [],
         'resumen': [],
         'error': None
@@ -404,24 +393,16 @@ def main(carpeta_nombre):
             
             if datos.get('tablas'):
                 exitosos += 1
-                if i % 20 == 0:
-                    print(f"OK")
+                resultados.append(datos)
+                if i % 20 == 0 or i == 1:
+                    print("OK")
             else:
-                if i % 20 == 0:
-                    print("Sin datos")
-            
-            resultados.append(datos)
+                if i % 20 == 0 or i == 1:
+                    print("Sin datos (descartado)")
         else:
             errores += 1
-            if i % 20 == 0:
-                print("Error")
-            resultados.append({
-                'archivo': nombre,
-                'carpeta': info['carpeta'],
-                'ruta': info['ruta_relativa'],
-                'error': 'No se pudo convertir',
-                'tablas': []
-            })
+            if i % 20 == 0 or i == 1:
+                print("Error (descartado)")
         
         if i % 50 == 0:
             try:
@@ -432,9 +413,9 @@ def main(carpeta_nombre):
                 pass
     
     print(f"\n[3] Resumen:")
-    print(f"    Procesados: {len(resultados)}")
-    print(f"    Con tablas: {exitosos}")
-    print(f"    Errores: {errores}")
+    print(f"    Revisados: {len(archivos)}")
+    print(f"    Con datos: {len(resultados)}")
+    print(f"    Errores: {errores}")     
     
     # Generar Excel
     print(f"\n[4] Generando Excel...")
