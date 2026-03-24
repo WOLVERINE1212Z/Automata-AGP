@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Archivos de datos grandes
+output/
+
+# Imágenes grandes
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Excel temporal
+*.xlsx~
+*.xls~
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de ODA (Output)
+*.dwg
+*.dxf
+*.bin
+
+# Logs
+*.log
