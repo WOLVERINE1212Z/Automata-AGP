@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#rama logan prueba uno
 """
 EXTRACTOR POR CARPETA - Procesa una carpeta específica
 Genera Excel con hojas por subcarpeta
