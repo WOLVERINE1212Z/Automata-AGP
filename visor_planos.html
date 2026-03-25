@@ -330,6 +330,70 @@
       font-size: 13px;
     }
     
+    /* Imágenes */
+    .imagenes-seccion {
+      margin-bottom: 20px;
+    }
+    
+    .imagenes-titulo {
+      font-size: 16px;
+      color: var(--agp-gris);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--agp-primary);
+    }
+    
+    .imagenes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    
+    .imagen-item {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .imagen-item:hover {
+      transform: scale(1.02);
+    }
+    
+    .imagen-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    /* Modal imagen */
+    .modal-imagen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-imagen img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+    }
+    
+    .cerrar-modal {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      cursor: pointer;
+    }
+    
     /* Loading */
     .loading {
       position: fixed;
@@ -414,25 +478,56 @@
     
     async function cargarDatos() {
       try {
-        const response = await fetch('output/TOYOTA_datos.json');
+        // Intentar cargar el nuevo formato (TOYOTA_090.json)
+        let response = await fetch('output/TOYOTA_090.json');
+        if (!response.ok) {
+          // Si no existe, intentar el formato anterior
+          response = await fetch('output/TOYOTA_datos.json');
+        }
         datosGlobales = await response.json();
         
-        archivosMostrados = [...datosGlobales.planos];
+        // El formato puede ser directo (planos) o por carpetas
+        if (datosGlobales.carpetas) {
+          // Formato por carpetas - aplanar
+          archivosMostrados = [];
+          datosGlobales.carpetas.forEach(carpeta => {
+            carpeta.archivos.forEach(archivo => {
+              archivo.carpeta = carpeta.nombre;
+              archivosMostrados.push(archivo);
+            });
+          });
+        } else {
+          archivosMostrados = [...datosGlobales.planos];
+        }
+        
         renderizarLista();
 
+        // Mostrar stats según el formato de metadata
+        const total = archivosMostrados.length;
+        const exitosos = archivosMostrados.filter(p => p.tablas && p.tablas.length > 0).length;
         document.getElementById('stats').textContent = 
-          `${datosGlobales.metadata.total} archivos 090 | ${datosGlobales.metadata.exitosos} con datos`;
+          `${total} archivos | ${exitosos} con datos`;
         
         document.getElementById('loading').style.display = 'none';
       } catch (error) {
-        document.getElementById('loading').innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        document.getElementById('loading').innerHTML = `<p style="color: red;">Error: ${error.message}</p><p style="color: #666;">Asegúrate de ejecutar primero el extractor: py -X utf8 extraer_090_toyota.py</p>`;
       }
     }
     
     function getTags(plano) {
       const tags = [];
 
-      if (plano.resumen && plano.resumen.length > 0) {
+      // Nuevo formato: plano.resumen es un objeto {campo: valor}
+      if (plano.resumen && typeof plano.resumen === 'object') {
+        Object.entries(plano.resumen).slice(0, 3).forEach(([campo, valor]) => {
+          let tipo = 'datos';
+          if (campo.toUpperCase().includes('OFFSET')) tipo = 'offset';
+          if (campo.toUpperCase().includes('BN')) tipo = 'bn';
+          tags.push({ tipo, valor: `${campo}: ${valor}` });
+        });
+      }
+      // Formato anterior: plano.resumen es array
+      else if (plano.resumen && Array.isArray(plano.resumen)) {
         plano.resumen.slice(0, 3).forEach(item => {
           let tipo = 'datos';
           if (item.startsWith('OFFSET')) tipo = 'offset';
@@ -475,7 +570,7 @@
       html += `
         <div class="archivo-item" onclick="seleccionarArchivo(${idx})" data-idx="${idx}">
           <div class="archivo-nombre">${plano.archivo}</div>
-          <div class="archivo-carpeta">Pieza: ${plano.pieza || '090'}</div>
+          <div class="archivo-carpeta">Carpeta: ${plano.carpeta || 'Raíz'}</div>
           <div class="archivo-tags">
             ${tags.map(t => `<span class="tag ${t.tipo}">${t.valor}</span>`).join('')}
             ${!tieneDatos ? '<span class="tag">Sin datos</span>' : ''}
@@ -517,12 +612,40 @@
         return;
       }
       
+      // Mostrar imágenes si existen
+      let imagenesHtml = '';
+      if (plano.imagenes && plano.imagenes.length > 0) {
+        const imgCount = plano.imagenes.length;
+        
+        // Convertir rutas UNC a URL del servidor local
+        const imagenesProcesadas = plano.imagenes.map(img => {
+          // Reemplazar UNC con /Z/ para que el servidor local lo sirva
+          let nuevaRuta = img.replace(/\\\\192\.168\.2\.2\\Sapfiles\\PlanosSapProduccion/gi, '/Z/');
+          return nuevaRuta;
+        });
+        
+        imagenesHtml = `
+          <div class="imagenes-seccion">
+            <h3 class="imagenes-titulo">📷 Imágenes (${imgCount})</h3>
+            <p style="color: #e67e22; font-size: 11px; margin: 5px 0;">💡 IMPORTANTE: Ejecuta primero "mapear_unidad_z.bat" Y luego "servidor_local.py"</p>
+            <div class="imagenes-grid">
+              ${imagenesProcesadas.map(img => `
+                <div class="imagen-item">
+                  <img src="${img}" alt="Imagen" loading="lazy" onclick="verImagenAmpliada(this.src)" onerror="this.style.opacity='0.2'; this.parentElement.style.border='2px dashed red'; this.parentElement.title='Error: Ejecuta servidor_local.py';">
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      
       let html = `
         <div class="detalles-header">
           <h2>${plano.archivo}</h2>
           <p class="ruta">📁 ${plano.carpeta || 'Raíz'}</p>
           <p class="stats">Pieza ${plano.pieza || '090'} | ${plano.tablas.length} tabla(s) técnica(s)</p>
         </div>
+        ${imagenesHtml}
         <div class="tablas-grid">
       `;
       
@@ -548,7 +671,25 @@
       });
       
       html += '</div>';
+      
+      // Modal para ver imagen ampliada
+      html += `
+        <div id="modal-imagen" class="modal-imagen" onclick="cerrarModal()">
+          <span class="cerrar-modal">&times;</span>
+          <img id="imagen-ampliada" src="">
+        </div>
+      `;
+      
       container.innerHTML = html;
+    }
+    
+    function verImagenAmpliada(src) {
+      document.getElementById('imagen-ampliada').src = src;
+      document.getElementById('modal-imagen').style.display = 'flex';
+    }
+    
+    function cerrarModal() {
+      document.getElementById('modal-imagen').style.display = 'none';
     }
     
     function setFiltro(tipo, btn) {
