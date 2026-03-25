@@ -48,19 +48,17 @@ def extraer_pieza_desde_nombre(nombre_archivo):
     return None
 
 
-def es_pieza_090(nombre_archivo):
-    """Devuelve True solo si la pieza real del archivo es 090"""
-    return extraer_pieza_desde_nombre(nombre_archivo) == '090'
+
 
 def obtener_dwg_carpeta(carpeta_nombre):
-    """Busca archivos DWG de pieza 090 en una carpeta específica del servidor"""
+    """Busca TODOS los archivos DWG en una carpeta específica del servidor"""
     ruta_carpeta = os.path.join(SERVIDOR, carpeta_nombre)
     
     if not os.path.exists(ruta_carpeta):
         print(f"[ERROR] La carpeta no existe: {ruta_carpeta}")
         return []
     
-    print(f"[1] Buscando archivos DWG de pieza 090 en: {carpeta_nombre}")
+    print(f"[1] Buscando TODOS los archivos DWG en: {carpeta_nombre}")
     archivos = []
     
     contador_carpetas = 0
@@ -78,8 +76,7 @@ def obtener_dwg_carpeta(carpeta_nombre):
             continue
             
         for file in files:
-            if file.lower().endswith('.dwg') and es_pieza_090(file):
-                print(f"    [090] Encontrado: {file}", flush=True)
+            if file.lower().endswith('.dwg'):
                 ruta_completa = os.path.join(root, file)
                 ruta_rel = ruta_completa.replace(ruta_carpeta, '').strip('\\')
                 archivos.append({
@@ -89,7 +86,7 @@ def obtener_dwg_carpeta(carpeta_nombre):
                     'nombre': file
                 })
     
-    print(f"    Encontrados: {len(archivos)} archivos DWG de pieza 090")
+    print(f"    Encontrados: {len(archivos)} archivos DWG en total")
     return archivos
 
 
@@ -393,16 +390,29 @@ def main(carpeta_nombre):
             
             if datos.get('tablas'):
                 exitosos += 1
-                resultados.append(datos)
-                if i % 20 == 0 or i == 1:
-                    print("OK")
-            else:
-                if i % 20 == 0 or i == 1:
-                    print("Sin datos (descartado)")
+            
+            # Incluir TODOS los archivos (con o sin datos)
+            resultados.append(datos)
+            
+            if i % 20 == 0 or i == 1:
+                if datos.get('tablas'):
+                    print(f"OK ({len(datos['tablas'])} tablas)")
+                else:
+                    print("Sin datos técnicos")
         else:
             errores += 1
+            # Incluir también los que fallaron en conversión
+            resultados.append({
+                'archivo': info['nombre'],
+                'ruta': info['ruta_relativa'],
+                'carpeta': info['carpeta'],
+                'pieza': extraer_pieza_desde_nombre(info['nombre']) or '',
+                'tablas': [],
+                'resumen': [],
+                'error': 'Error en conversión DWG a DXF'
+            })
             if i % 20 == 0 or i == 1:
-                print("Error (descartado)")
+                print("Error conversión")
         
         if i % 50 == 0:
             try:
@@ -430,7 +440,6 @@ def main(carpeta_nombre):
         'metadata': {
             'carpeta': carpeta_nombre,
             'servidor': SERVIDOR,
-            'pieza_objetivo': '090',
             'total': len(resultados),
             'exitosos': exitosos,
             'errores': errores,
